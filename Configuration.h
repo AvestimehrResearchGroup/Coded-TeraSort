@@ -17,9 +17,9 @@ class Configuration {
     numReducer = 12;
     numInput = numReducer;    
     
-    inputPath = "./Input/Input100000";
-    outputPath = "./Output/Output100000";
-    partitionPath = "./Partition/Partition100000";
+    inputPath = "./Input/Input10000";
+    outputPath = "./Output/Output10000";
+    partitionPath = "./Partition/Partition10000";
     numSamples = 10000;
   }
   ~Configuration() {}
