@@ -1,5 +1,5 @@
 # Coded-TeraSort
-Utilizing in-network coding to trade extra computations for more communication bandwidth in a distributed sorting algorithm (TeraSort).  The paper for this project is available at https://arxiv.org/abs/1702.04850.
+Utilizing in-network coding to trade extra computations for more communication bandwidth in a distributed sorting algorithm ([TeraSort](http://sortbenchmark.org/YahooHadoop.pdf)).  The paper for this project is available at https://arxiv.org/abs/1702.04850.
 
 ## Requirement
 - C/C++ compiler (g++)
