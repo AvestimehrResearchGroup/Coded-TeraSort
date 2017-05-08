@@ -14,7 +14,7 @@ class Configuration {
   
  public:
   Configuration() {
-    numReducer = 12;
+    numReducer = 3;
     numInput = numReducer;    
     
     inputPath = "./Input/Input10000";
