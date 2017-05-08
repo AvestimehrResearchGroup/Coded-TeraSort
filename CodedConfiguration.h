@@ -10,13 +10,9 @@ class CodedConfiguration : public Configuration {
   
  public:
  CodedConfiguration(): Configuration() {
-    /* numInput = 12870;    // N is assumed to be K choose r      */
-    /* numReducer = 16;  // K */
-    /* load = 8;        // r */
-
-    numInput = 924;    // N is assumed to be K choose r     
-    numReducer = 12;  // K
-    load = 6;        // r    
+    numInput = 3;    // N is assumed to be K choose r     
+    numReducer = 3;  // K
+    load = 2;        // r    
     
     inputPath = "./Input/Input10000-C";
     outputPath = "./Output/Output10000-C";
