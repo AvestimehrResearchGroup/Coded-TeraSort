@@ -69,10 +69,3 @@ CodedMaster.o: CodedMaster.cc CodedMaster.h CodedConfiguration.h
 
 CodedWorker.o: CodedWorker.cc CodedWorker.h CodedConfiguration.h
 	$(CC) $(CFLAGS) -c CodedWorker.cc
-
-
-#Codegen: CodeGenTest.cc CodeGeneration.o
-#	$(CC) $(CFLAGS) -o Codegen CodeGenTest.cc CodeGeneration.o
-
-#BroadcastTest: BroadcastTest.cc
-#	$(CC) $(CFLAGS) -o BroadcastTest BroadcastTest.cc
