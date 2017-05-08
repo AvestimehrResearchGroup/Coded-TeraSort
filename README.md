@@ -1,8 +1,7 @@
 # Coded-TeraSort
-Utilizing in-network coding to trade extra computations for more communication bandwidth in a distributed Sorting algorithm (TeraSort).  The project paper is available at https://arxiv.org/abs/1702.04850.
+Utilizing in-network coding to trade extra computations for more communication bandwidth in a distributed sorting algorithm (TeraSort).  The paper for this project is available at https://arxiv.org/abs/1702.04850.
 
 ## Requirement
-A local machine needs to have the following:
 - C/C++ compiler (g++)
 - OpenMPI library
 
@@ -12,8 +11,8 @@ A file containing data to be sorted must be placed in the `input` directory.  No
 
 ### TeraSort Execution
 Specify in `Configuration.h`:
-- `numReducer`: The number of nodes 
-- `inputPath`: An input file  
+- `numReducer`: number of distributed computing nodes 
+- `inputPath`: a path to the input file  
 
 Run `make` to compile `TeraSort`.
 
@@ -23,10 +22,10 @@ Run `./TeraSort`.
 
 ### Coded-TeraSort Execution
 Specify in `CodedConfiguration.h`:
-- `numReducer`: The number of nodes 
-- `load`: The number of nodes on which each data point is processed (computation load) 
-- `numInput` must be equal to (`numReducer` choose `load`)
-- `inputPath`: An input file 
+- `numReducer`: number of distributed computing nodes  
+- `load`: number of nodes on which each data point is processed (computation load) 
+- `numInput` is set to be equal to (`numReducer` choose `load`)
+- `inputPath`: a path to the input file
 
 Run `make` to compile `CodedTeraSort`.
 
