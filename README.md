@@ -18,7 +18,9 @@ Run `make` to compile `TeraSort`.
 
 Run `./Splitter` to split the input data points.
 
-Run `./TeraSort`.
+Run `mpirun -np 4 ./TeraSort`.
+
+The above execution creates 3 computing processes and 1 master process to sorts data according to TeraSort algorithm. All processes are local.
 
 ### Coded-TeraSort Execution
 Specify in `CodedConfiguration.h`:
@@ -31,4 +33,6 @@ Run `make` to compile `CodedTeraSort`.
 
 Run `./Splitter code` to split the input data points.
 
-Run `./CodedTeraSort`.
+Run `mpirun -np 4 ./CodedTeraSort`.
+
+The above execution creates 3 computing processes and 1 master process to sorts data according to CodedTeraSort algorithm. All processes are local.

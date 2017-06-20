@@ -1,0 +1,8 @@
+*~
+*.o
+Input/*_*
+Output/*_*
+TeraSort
+CodedTeraSort
+Splitter
+InputPlacement
