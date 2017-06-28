@@ -146,7 +146,7 @@ int main( int argc, char* argv[] )
 	for( auto nit = ns.begin(); nit != ns.end(); nit++ ) {
 	  cout << *nit << " ";
 	}
-	cout << endl;
+	// cout << endl;
 
 	// Calculate total size of data to be sent
 	unsigned long long totalSize = 0;
@@ -154,7 +154,7 @@ int main( int argc, char* argv[] )
 	  unsigned int idx = *oit - 1;
 	  totalSize += fileInfos[ idx ].endByte - fileInfos[ idx ].startByte + 1;
 	}
-	cout << "Total size = " << totalSize << endl;
+	cout << "    Total size = " << totalSize << endl;
 	mgComm.Bcast( &totalSize, 1, MPI::UNSIGNED_LONG_LONG, 0 );
 
 	// Send data
