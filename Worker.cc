@@ -99,9 +99,12 @@ void Worker::run()
 
   // UNPACK PHASE
   time = -clock();
+  memTime = 0;
   // append local partition to localList
   for ( auto it = partitionCollection[ rank - 1 ]->begin(); it != partitionCollection[ rank - 1 ]->end(); ++it ) {
+    memTime -= clock();
     unsigned char* buff = new unsigned char[ conf->getLineSize() ];
+    memTime += clock();
     memcpy( buff, *it, conf->getLineSize() );
     localList.push_back( buff );
   }
@@ -113,13 +116,16 @@ void Worker::run()
     }
     TxData& rxData = partitionRxData[ i - 1 ];
     for( unsigned long long lc = 0; lc < rxData.numLine; lc++ ) {
+      memTime -= clock();
       unsigned char* buff = new unsigned char[ lineSize ];
+      memTime += clock();
       memcpy( buff, rxData.data + lc*lineSize, lineSize );
       localList.push_back( buff );
     }
     delete [] rxData.data;
   }
   time += clock();
+  time -= memTime;
   rTime = double( time ) / CLOCKS_PER_SEC;    
   MPI::COMM_WORLD.Gather( &rTime, 1, MPI::DOUBLE, NULL, 1, MPI::DOUBLE, 0 );      
 
@@ -140,6 +146,7 @@ void Worker::execMap()
 {
   clock_t time = 0;
   double rTime = 0;
+  memTime = 0;
   time -= clock();
   
   // READ INPUT FILE AND PARTITION DATA
@@ -162,31 +169,39 @@ void Worker::execMap()
 
   // Create lists of lines
   for ( unsigned int i = 0; i < conf->getNumReducer(); i++ ) {
+    memTime -= clock();
     partitionCollection.insert( pair< unsigned int, LineList* >( i, new LineList ) );
+    memTime += clock();
   }
 
   // MAP
   // Put each line to associated collection according to partition list
   for ( unsigned long i = 0; i < numLine; i++ ) {
+    memTime -= clock();
     unsigned char* buff = new unsigned char[ lineSize ];
+    memTime += clock();
     inputFile.read( ( char * ) buff, lineSize );
     unsigned int wid = trie->findPartition( buff );
     partitionCollection.at( wid )->push_back( buff );
   }
   inputFile.close();  
   time += clock();
+  time -= memTime;
   rTime = double( time ) / CLOCKS_PER_SEC;  
   MPI::COMM_WORLD.Gather( &rTime, 1, MPI::DOUBLE, NULL, 1, MPI::DOUBLE, 0 );    
 
 
   time = -clock();
+  memTime = 0;
   // Packet partitioned data to a chunk
   for( unsigned int i = 0; i < conf->getNumReducer(); i++ ) {
     if( i == rank - 1 ) {
       continue;
     }
     unsigned long long numLine = partitionCollection[ i ]->size();
+    memTime -= clock();
     partitionTxData[ i ].data = new unsigned char[ numLine * lineSize ];
+    memTime += clock();
     partitionTxData[ i ].numLine = numLine;
     auto lit = partitionCollection[ i ]->begin();
     for( unsigned long long j = 0; j < numLine * lineSize; j += lineSize ) {
@@ -197,6 +212,7 @@ void Worker::execMap()
     delete partitionCollection[ i ];
   }
   time += clock();
+  time -= memTime;
   rTime = double( time ) / CLOCKS_PER_SEC;
   MPI::COMM_WORLD.Gather( &rTime, 1, MPI::DOUBLE, NULL, 1, MPI::DOUBLE, 0 );    
 }

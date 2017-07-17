@@ -73,6 +73,7 @@ class CodedWorker
   NodeSetVecEnDataMap encodeDataRecv;
   MulticastGroupMap multicastGroupMap;
   pthread_t decodeThread;
+  clock_t memTime;
 
  public: // Because of thread
   const CodedConfiguration* conf;

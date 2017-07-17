@@ -86,16 +86,18 @@ void CodedWorker::run()
   
   // EXECUTE MAP PHASE
   time = clock();
+  memTime = 0;
   execMap();
-  time = clock() - time;
+  time = clock() - time - memTime;
   rTime = double( time ) / CLOCKS_PER_SEC;  
   MPI::COMM_WORLD.Gather( &rTime, 1, MPI::DOUBLE, NULL, 1, MPI::DOUBLE, 0 );      
 
 
   // EXECUTE ENCODING PHASE
   time = clock();
+  memTime = 0;
   execEncoding();
-  time = clock() - time;
+  time = clock() - time - memTime;
   rTime = double( time ) / CLOCKS_PER_SEC;
   MPI::COMM_WORLD.Gather( &rTime, 1, MPI::DOUBLE, NULL, 1, MPI::DOUBLE, 0 );      
 
@@ -118,8 +120,9 @@ void CodedWorker::run()
 
   // EXECUTE DECODING PHASE
   time = clock();
+  memTime = 0;
   execDecoding();
-  time = clock() - time;
+  time = clock() - time - memTime;
   rTime = double( time ) / CLOCKS_PER_SEC;
   MPI::COMM_WORLD.Gather( &rTime, 1, MPI::DOUBLE, NULL, 1, MPI::DOUBLE, 0 );      
 
@@ -184,13 +187,17 @@ void CodedWorker::execMap()
 
     // Crate lists of lines
     for ( unsigned int i = 0; i < conf->getNumReducer(); i++ ) {
+      memTime -= clock();
       pc[ i ] = new LineList;
+      memTime += clock();
       // inputPartitionCollection[ inputId ][ i ] = new LineList;
     }
     
     // Partition data in the input file
     for ( unsigned long i = 0; i < numLine; i++ ) {
+      memTime -= clock();
       unsigned char* buff = new unsigned char[ lineSize ];
+      memTime += clock();
       inputFile.read( ( char * ) buff, lineSize );
       unsigned int wid = trie->findPartition( buff );
       pc[ wid ]->push_back( buff );      
@@ -247,7 +254,9 @@ void CodedWorker::execEncoding()
       unsigned long long chunkSize = ll->size() / numPart; // a number of lines ( not bytes )
       // first chunk to second last chunk
       for( unsigned int ci = 0; ci < numPart - 1; ci++ ) {
+	memTime -= clock();
 	unsigned char* chunk = new unsigned char[ chunkSize * lineSize ];
+	memTime += clock();
 	for( unsigned long long j = 0; j < chunkSize; j++ ) {
 	  memcpy( chunk + j * lineSize, *lit, lineSize );
 	  lit++;
@@ -258,8 +267,10 @@ void CodedWorker::execEncoding()
 	encodePreData[ nsid ][ vplist ].push_back( dc );
       }
       // last chuck
-      unsigned long long lastChunkSize = ll->size() - chunkSize * ( numPart - 1 );      
+      unsigned long long lastChunkSize = ll->size() - chunkSize * ( numPart - 1 );
+      memTime -= clock();
       unsigned char* chunk = new unsigned char[ lastChunkSize * lineSize ];
+      memTime += clock();
       for( unsigned long long j = 0; j < lastChunkSize; j++ ) {
 	memcpy( chunk + j * lineSize, *lit, lineSize );
 	lit++;
@@ -287,7 +298,9 @@ void CodedWorker::execEncoding()
     }
 
     // Initialize encode data
+    memTime -= clock();
     encodeDataSend[ nsid ].data = new unsigned char[ maxSize * lineSize ](); // Initial it with 0
+    memTime += clock();
     encodeDataSend[ nsid ].size = maxSize;
     unsigned char* data = encodeDataSend[ nsid ].data;
 
@@ -343,7 +356,9 @@ void CodedWorker::execEncoding()
     }
     encodeDataSend[ nsid ].metaSize = ms;
 
+    memTime -= clock();
     unsigned char* mbuff = new unsigned char[ ms ];
+    memTime += clock();
     unsigned char* p = mbuff;
     unsigned int metaSize = endata.metaList.size();
     memcpy( p, &metaSize, sizeof( unsigned int ) );
@@ -535,7 +550,9 @@ void CodedWorker::execDecoding()
     LineList* ll = inputPartitionCollection[ inputId ][ partitionId ];
     // copy line by line
     for( auto lit = ll->begin(); lit != ll->end(); lit++ ) {
+      memTime -= clock();
       unsigned char* buff = new unsigned char[ lineSize ];
+      memTime += clock();
       memcpy( buff, *lit, lineSize );
       localList.push_back( buff );
     }
@@ -556,7 +573,9 @@ void CodedWorker::execDecoding()
       for( auto dcit = vdc.begin(); dcit != vdc.end(); dcit++ ) {
   	unsigned char* data = dcit->data;
   	for( unsigned long long i = 0; i < dcit->size; i++ ) {
+	  memTime -= clock();
   	  unsigned char* buff = new unsigned char[ lineSize ];
+	  memTime += clock();
   	  memcpy( buff, data + i*lineSize, lineSize );
   	  localList.push_back( buff );	  	  
   	}

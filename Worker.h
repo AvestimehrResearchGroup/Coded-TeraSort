@@ -27,6 +27,7 @@ class Worker
   PartitionPackData partitionRxData;
   LineList localList;
   TrieNode* trie;
+  clock_t memTime;
 
  public:
  Worker( unsigned int _rank ): rank( _rank ) {}
