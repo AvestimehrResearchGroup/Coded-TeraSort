@@ -58,9 +58,50 @@ std::vector<std::vector<std::string>> handleData(std::string fileName){
     return samples;
 }
 
+void countFrequency(){
+    // prepare input
+    int lenPair = 23;
+    unsigned char lList[70] = "192.168.1.1..**********192.168.1.2..**********192.168.1.2..**********";
+    std::vector<unsigned char *> locaList(3);
+    locaList[0] = lList;  // the starting point of the 1st pair
+    locaList[1] = lList + lenPair;  // the starting point of the 2nd pair
+    locaList[2] = lList + lenPair * 2;  // the starting point of the 3rd pair
+    
+    // initialize
+    int lenIP = 13;
+    std::vector<std::string> IPs(1);
+    std::vector<int> counts(1);
+    IPs[0].resize(lenIP);
+    std::copy(locaList[0], locaList[0] + lenIP, IPs[0].begin());
+    int numIPs = 0;  // the actual number of different IPs - 1
+
+    // count frequency
+    for (int i = 0; i < locaList.size(); i++){
+            std::string ip(locaList[i], locaList[i] + lenIP);
+            if (ip.compare(IPs[numIPs]) != 0){  // find a new IP
+                numIPs ++;
+                IPs.resize(numIPs + 1);
+                IPs[numIPs].resize(lenIP);
+                counts.resize(numIPs + 1);
+                std:copy(locaList[i], locaList[i] + lenIP, IPs[numIPs].begin());
+            }
+            counts[numIPs] ++;
+    }
+    for (int i = 0; i < numIPs + 1; i++){
+        std::cout << IPs[i] << " appears: " << counts[i] << " times" << std::endl;
+    }
+
+    // write into a file
+    std::ofstream myFile ("./Input/countIPs.txt");
+    for (int i = 0; i < IPs.size(); i ++){
+        myFile << IPs[i] << ' ' << counts[i] << std::endl;
+    }
+}
+
 int main(){
-    std::string fileName = "data.txt";
-    std::ofstream myFile ("srcIPs.txt");
+    countFrequency();
+    std::string fileName = "./Input/data.txt";
+    std::ofstream myFile ("./Input/srcIPs.txt");
     std::string value (10, '*'); // the value of the key, set as 10 "*"s.
     std::vector<std::vector<std::string>> samples = handleData(fileName);
     int numSamples = samples.size();
