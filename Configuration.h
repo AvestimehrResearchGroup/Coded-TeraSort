@@ -17,14 +17,14 @@ class Configuration {
     numReducer = 3;
     numInput = numReducer;    
     
-    inputPath = "./Input/Input10000";
-    outputPath = "./Output/Output10000";
-    partitionPath = "./Partition/Partition10000";
+    inputPath = "./Input/srcIPs.txt";
+    outputPath = "./Output/Output";
+    partitionPath = "./Partition/Partition";
     numSamples = 10000;
   }
   ~Configuration() {}
-  const static unsigned int KEY_SIZE = 10;
-  const static unsigned int VALUE_SIZE = 90;  
+  const static unsigned int KEY_SIZE = 13;
+  const static unsigned int VALUE_SIZE = 10;  
   
   unsigned int getNumReducer() const { return numReducer; }
   unsigned int getNumInput() const { return numInput; }  

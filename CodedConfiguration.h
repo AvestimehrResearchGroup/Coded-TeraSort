@@ -14,7 +14,7 @@ class CodedConfiguration : public Configuration {
     numReducer = 3;  // K
     load = 2;        // r    
     
-    inputPath = "./Input/Input10000-C";
+    inputPath = "./Input/srcIPs-C.txt";
     outputPath = "./Output/Output10000-C";
     partitionPath = "./Partition/Partition10000-C";
     numSamples = 10000;    
