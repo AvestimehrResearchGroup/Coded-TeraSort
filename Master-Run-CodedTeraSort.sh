@@ -30,3 +30,10 @@ echo ""
 echo ""
 echo "// Run TeraSort"    
 mpirun -mca btl ^openib --mca btl_tcp_if_include eth1 --mca oob_tcp_if_include eth1 -host $host --mca plm_rsh_no_tree_spawn 1 ./CodedTeraSort
+
+for (( i = 1; i <= $1; i++ ))
+do
+    scp apac@n$i:TeraSort/Output/countIPs-C.txt ~/TeraSort
+    cp countIPs-C.txt countIPs-C_$i.txt
+    rm countIPs-C.txt
+done
