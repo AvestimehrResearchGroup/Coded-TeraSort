@@ -279,7 +279,7 @@ void Worker::outputLocalList()
     outputFile.write( ( char* ) *it, conf->getLineSize() );
   }
   outputFile.close();
-  countFrequency(locaList);
+  countFrequency(localList);
   //cout << rank << ": outputFile " << buff << " is saved.\n";
 }
 

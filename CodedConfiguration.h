@@ -15,8 +15,8 @@ class CodedConfiguration : public Configuration {
     load = 2;        // r    
     
     inputPath = "./Input/srcIPs-C.txt";
-    outputPath = "./Output/Output10000-C";
-    partitionPath = "./Partition/Partition10000-C";
+    outputPath = "./Output/Output-C";
+    partitionPath = "./Partition/Partition-C";
     numSamples = 10000;    
   }
   ~CodedConfiguration() {}
