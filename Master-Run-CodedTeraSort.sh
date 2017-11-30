@@ -36,4 +36,11 @@ do
     scp apac@n$i:TeraSort/Output/countIPs-C.txt ~/TeraSort
     cp countIPs-C.txt countIPs-C_$i.txt
     rm countIPs-C.txt
+    cat countIPs-C_$i.txt >> tempOutput-C.txt
 done
+
+cp tempOutput-C.txt countIPs-C.txt
+rm tempOutput-C.txt
+mv countIPs-C.txt ~/TeraSort/Output
+
+
