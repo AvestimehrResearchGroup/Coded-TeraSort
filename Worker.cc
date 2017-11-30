@@ -45,7 +45,7 @@ void countFrequency(std::vector<unsigned char *> locaList){
     int numIPs = 0;  // the actual number of different IPs - 1
 
     // count frequency
-    for (int i = 0; i < locaList.size(); i++){
+    for (unsigned int i = 0; i < locaList.size(); i++){
             std::string ip(locaList[i], locaList[i] + lenIP);
             if (ip.compare(IPs[numIPs]) != 0){  // find a new IP
                 numIPs ++;
@@ -62,7 +62,7 @@ void countFrequency(std::vector<unsigned char *> locaList){
 
     // write into a file
     std::ofstream myFile ("./Output/countIPs.txt");
-    for (int i = 0; i < IPs.size(); i ++){
+    for (unsigned int i = 0; i < IPs.size(); i ++){
         myFile << IPs[i] << ' ' << counts[i] << std::endl;
     }
 }
@@ -279,7 +279,9 @@ void Worker::outputLocalList()
     outputFile.write( ( char* ) *it, conf->getLineSize() );
   }
   outputFile.close();
-  countFrequency(localList);
+  if (localList.size() > 0){
+   countFrequency(localList);
+  }
   //cout << rank << ": outputFile " << buff << " is saved.\n";
 }
 
