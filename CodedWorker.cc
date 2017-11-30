@@ -57,6 +57,38 @@ CodedWorker::~CodedWorker()
   delete conf;
 }
 
+void countFrequency(std::vector<unsigned char *> locaList){
+    // initialize
+    int lenIP = 13;
+    std::vector<std::string> IPs(1);
+    std::vector<int> counts(1);
+    IPs[0].resize(lenIP);
+    std::copy(locaList[0], locaList[0] + lenIP, IPs[0].begin());
+    int numIPs = 0;  // the actual number of different IPs - 1
+
+    // count frequency
+    for (int i = 0; i < locaList.size(); i++){
+            std::string ip(locaList[i], locaList[i] + lenIP);
+            if (ip.compare(IPs[numIPs]) != 0){  // find a new IP
+                numIPs ++;
+                IPs.resize(numIPs + 1);
+                IPs[numIPs].resize(lenIP);
+                counts.resize(numIPs + 1);
+                std:copy(locaList[i], locaList[i] + lenIP, IPs[numIPs].begin());
+            }
+            counts[numIPs] ++;
+    }
+    // for (int i = 0; i < numIPs + 1; i++){
+    //     std::cout << IPs[i] << " appears: " << counts[i] << " times" << std::endl;
+    // }
+
+    // write into a file
+    std::ofstream myFile ("./Output/countIPs-C.txt");
+    for (int i = 0; i < IPs.size(); i ++){
+        myFile << IPs[i] << ' ' << counts[i] << std::endl;
+    }
+}
+
 void CodedWorker::run()
 {
   // RECEIVE CONFIGURATION FROM MASTER
@@ -794,6 +826,7 @@ void CodedWorker::outputLocalList()
     outputFile.write( ( char* ) *it, conf->getLineSize() );
   }
   outputFile.close();
+  countFrequency(localList);
   //cout << rank << ": outputFile " << buff << " is saved.\n";
 }
 

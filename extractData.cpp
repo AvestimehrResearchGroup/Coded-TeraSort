@@ -58,15 +58,7 @@ std::vector<std::vector<std::string>> handleData(std::string fileName){
     return samples;
 }
 
-void countFrequency(){
-    // prepare input
-    int lenPair = 23;
-    unsigned char lList[70] = "192.168.1.1..**********192.168.1.2..**********192.168.1.2..**********";
-    std::vector<unsigned char *> locaList(3);
-    locaList[0] = lList;  // the starting point of the 1st pair
-    locaList[1] = lList + lenPair;  // the starting point of the 2nd pair
-    locaList[2] = lList + lenPair * 2;  // the starting point of the 3rd pair
-    
+void countFrequency(std::vector<unsigned char *> locaList){
     // initialize
     int lenIP = 13;
     std::vector<std::string> IPs(1);
@@ -87,19 +79,28 @@ void countFrequency(){
             }
             counts[numIPs] ++;
     }
-    for (int i = 0; i < numIPs + 1; i++){
-        std::cout << IPs[i] << " appears: " << counts[i] << " times" << std::endl;
-    }
+    // for (int i = 0; i < numIPs + 1; i++){
+    //     std::cout << IPs[i] << " appears: " << counts[i] << " times" << std::endl;
+    // }
 
     // write into a file
-    std::ofstream myFile ("./Input/countIPs.txt");
+    std::ofstream myFile ("./Output/countIPs.txt");
     for (int i = 0; i < IPs.size(); i ++){
         myFile << IPs[i] << ' ' << counts[i] << std::endl;
     }
 }
 
 int main(){
-    countFrequency();
+    // prepare input
+    int lenPair = 23;
+    unsigned char lList[70] = "192.168.1.1..**********192.168.1.2..**********192.168.1.2..**********";
+    std::vector<unsigned char *> locaList(3);
+    locaList[0] = lList;  // the starting point of the 1st pair
+    locaList[1] = lList + lenPair;  // the starting point of the 2nd pair
+    locaList[2] = lList + lenPair * 2;  // the starting point of the 3rd pair
+    countFrequency(locaList);
+
+
     std::string fileName = "./Input/data.txt";
     std::ofstream myFile ("./Input/srcIPs.txt");
     std::string value (10, '*'); // the value of the key, set as 10 "*"s.
