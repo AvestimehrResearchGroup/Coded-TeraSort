@@ -6,6 +6,23 @@
 #include <vector>  // vector<>
 using namespace std;
 
+/*
+This function sorts the frequency of keys in descending order.
+
+E.g., input file input.txt looks like:
+
+192.168.1.1.. 1
+168.123.01.02 2
+
+which means the the 1st IP (192.168.1.1..) appeared once, the 2nd IP (168.123.01.02) appeared twice.
+
+After sorting, the output result.txt looks like:
+
+192.168.1.1.. 1
+168.123.01.02 2
+
+*/
+
 
 // C++ program for implementation of Heap Sort
 // The sort is in descending order.
@@ -98,6 +115,14 @@ void sortResult(string inFileName, string outFileName){
 }
 
 int main(int argc, char *argv[]){
+    if (argc == 1){
+        printf("Please tell me the name of the file that carries IP frequencies.")
+    }
     sortResult(argv[1], "./Output/result.txt");
 }
 
+
+// To compile:
+// $ g++ -std=c++11 sortResult.cpp -o extractIPs
+// To run:
+// $ ./sortResult ./Inputs/countIPs.txt

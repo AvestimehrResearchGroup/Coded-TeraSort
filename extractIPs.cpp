@@ -6,6 +6,41 @@
 #include <vector>  // vector<>
 using namespace std;
 
+/*
+This function converts network monitoring results into IP-value pairs.
+The monitoring results is carries by a .txt file.
+Each line is of format:
+timestamp    srcIP destIP, .... separated by space.
+
+E.g. the input file looks like:
+
+123456:78:10 192.168.1.1 135.246.1.2 123 456
+123456:78:20 168.123.01.02 135.246.1.2 123 456
+123456:78:30 168.123.01.02 135.468.2.3 579 802
+
+
+This function extracts the srcIP from each line, make it a key.
+The length of the key is the length of the longest IP.
+All other IPs will have dummy "."s padded.
+This function then adds 10 dummy "*" as its value.
+
+The output is a .txt file. Each line is a key-value pair, separated by space.
+The file looks like:
+
+192.168.1.1.. **********
+168.123.01.02 **********
+168.123.01.02 **********
+
+
+Key assumptions with hardcoded values as macros:
+1. segments of a line are separated by space ' ' 
+2. in the input file, the srcIP is the 2nd segment of each line
+3. the key value is **********
+*/
+#define SEP ' '
+#define IPLOC 1
+#define VALUE "**********"
+
 
 vector<string> handelLine(string myLine){
     // This function takes a string as the input.
@@ -17,7 +52,7 @@ vector<string> handelLine(string myLine){
     int numSeg = 0;
     int idx = 0;
     for (int i=0; i < myLine.size(); i++){
-        if (myLine[i] != ' '){  // the current segment is not completed
+        if (myLine[i] != SEP){  // the current segment is not completed
             sample[numSeg] += myLine[i];  // add the char to the string
         }
         else{
@@ -66,23 +101,22 @@ void extractIPs(string inFileName, string outFileName){
     // i.e., the second portion is the IP we want to extract 
     vector<vector<string>> samples = handleData(inFileName);
     ofstream myFile (outFileName);
-    string value (10, '*'); // the value of the key, set as 10 "*"s.
     int numSamples = samples.size();
     int maxSize = 0;
     for (int i = 0; i < numSamples; i++){  // Find the largest IP length
-        if (samples[i][1].size() > maxSize){
-            maxSize = samples[i][1].size();
+        if (samples[i][IPLOC].size() > maxSize){
+            maxSize = samples[i][IPLOC].size();
         }
     }
     for (int i = 0; i < samples.size(); i ++){
         myFile << samples[i][1];  // the srcIP
-        int diff = maxSize - samples[i % samples.size()][1].size();
-        if (diff > 0){
+        int diff = maxSize - samples[i % samples.size()][IPLOC].size();
+        if (diff > 0){  // IP is short, padd some "."s.
             for (int j = 0; j < diff; j++){
                 myFile << ".";
             }
         }
-        myFile << value;
+        myFile << VALUE;
     }
 }
 
@@ -90,3 +124,8 @@ void extractIPs(string inFileName, string outFileName){
 int main(int argc, char *argv[]){
     extractIPs(argv[1], "./Input/srcIPs.txt");
 }
+
+// To compile:
+// $ g++ -std=c++11 extractIPs.cpp -o extractIPs
+// To run:
+// $ ./extractIPs ./Inputs/data.txt
