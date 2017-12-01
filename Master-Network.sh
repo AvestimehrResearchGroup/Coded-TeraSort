@@ -11,13 +11,21 @@ echo "// Backup hosts"
 sudo cp /etc/hosts /etc/hosts_backup
 
 echo "// Setup Worker IP"
-for (( i = 1; i <= $1; i++ ))
-do
-    echo "n$i's IP:"
-    read nip
-    echo "$nip n$i" | sudo tee --append /etc/hosts
+#!for (( i = 1; i <= $1; i++ ))
+#!do
+#!    echo "n$i's IP:"
+#!    read nip
+#!    echo "$nip n$i" | sudo tee --append /etc/hosts
     #! sudo echo "$nip n$i" >> /etc/hosts
-done
+#!done
+
+numWorker = 0
+while IFS='' read -r line || [[ -n "$line" ]]; do
+    echo "Text read from file: $line"
+    numWorker=`expr $numWorker + 1`
+    echo "$line n$numWorker" | sudo tee --append /etc/hosts
+done < "$2"
+
 
 echo "// Generate RSA key for seamless ssh"
 sudo -u apac bash -c "ssh-keygen -t rsa -f ~/.ssh/id_rsa"
