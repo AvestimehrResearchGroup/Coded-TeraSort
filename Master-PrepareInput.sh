@@ -1,8 +1,8 @@
 #!/bin/bash
 
-g++ -std=c++11 extractData.cpp -o extractData
+g++ -std=c++11 extractIPs.cpp -o extractIPs
 
-./extractData 
+./extractIPs $1 
 
 cp ~/TeraSort/Input/srcIPs.txt ~/TeraSort/Input/srcIPs-C.txt 
                                                           
