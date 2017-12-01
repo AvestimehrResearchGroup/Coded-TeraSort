@@ -224,7 +224,7 @@ int main(){
     locaList[2] = lList + lenPair * 2;  // the starting point of the 3rd pair
     // count frequency and output a file
     string outFileNameFreq = "./Output/countIPs.txt";
-    countFrequency(locaList, outFileNameFreq);
+   // countFrequency(locaList, outFileNameFreq);
 
     // Example of merging the workers feedback and sort the final frequency
     vector<string> inFileNames(1);
