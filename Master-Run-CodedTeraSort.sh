@@ -34,16 +34,11 @@ mpirun -mca btl ^openib --mca btl_tcp_if_include eth1 --mca oob_tcp_if_include e
 for (( i = 1; i <= $1; i++ ))
 do
     scp apac@n$i:TeraSort/Output/countIPs-C.txt ~/TeraSort
-    cp countIPs-C.txt countIPs-C_$i.txt
-    rm countIPs-C.txt
+    mv countIPs-C.txt countIPs-C_$i.txt
     cat countIPs-C_$i.txt >> tempOutput-C.txt
 done
 
-cp tempOutput-C.txt countIPs-C.txt
-rm tempOutput-C.txt
-mv countIPs-C.txt ~/TeraSort/Output
+mv tempOutput-C.txt ~/TeraSort/Intermediate
 
-g++ -std=c++11 sortResult.cpp -o sortResult
-./sortResult ~/TeraSort/Output/countIPs-C.txt
-cp ~/TeraSort/Output/result.txt ~/TeraSort/Output/sortedResult-C.txt
-rm ~/TeraSort/Output/result.txt
+g++ -std=c++11 filterResult.cpp -o filterResult
+./filterResult ~/TeraSort/Intermediate/countIPs-C.txt ~/TeraSort/Output/result-C.txt 50

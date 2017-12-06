@@ -122,7 +122,12 @@ void extractIPs(string inFileName, string outFileName){
 
 
 int main(int argc, char *argv[]){
-    extractIPs(argv[1], "./Input/srcIPs.txt");
+    if (argc < 3){
+        printf("Please tell me both the input and output file names!\n");
+    }
+    else{
+        extractIPs(argv[1], argv[2]);
+    }
 }
 
 // To compile:

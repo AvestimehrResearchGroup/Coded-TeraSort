@@ -114,15 +114,48 @@ void sortResult(string inFileName, string outFileName){
     }
 }
 
-int main(int argc, char *argv[]){
-    if (argc == 1){
-        printf("Please tell me the name of the file that carries IP frequencies.")
+void filterResult(string inFileName, string outFileName, int thres){
+    int numIPs = 0;
+    // read files
+    ifstream myFile;  // create an object to read the data txt.
+    myFile.open(inFileName);
+    ofstream outFile (outFileName);
+    string myLine;
+    while (!myFile.eof()){  // while not reaching the end of the file
+        if (getline(myFile, myLine)){  // try read a line
+            // read the IP
+            string IP;
+            unsigned int loc = 0;
+            // read IP
+            while (myLine[loc] != ' ' && loc < myLine.size()){
+                IP += myLine[loc];
+                loc ++;
+            }
+            // read the count
+            string freq;
+            while (loc < myLine.size()){
+                freq += myLine[loc];
+                loc ++;
+            }
+            if (atoi(freq.c_str()) >= thres){
+                outFile << IP << endl;
+            }
+        }
     }
-    sortResult(argv[1], "./Output/result.txt");
 }
 
-
-// To compile:
-// $ g++ -std=c++11 sortResult.cpp -o extractIPs
-// To run:
-// $ ./sortResult ./Inputs/countIPs.txt
+int main(int argc, char *argv[]){
+    if (argc < 3){
+        printf("Please tell me both the input and output file names!\n.");
+    }
+    else{
+        if (argc == 3)
+        {
+            printf("filtering the IPs with a threshold of 50\n");
+            filterResult(argv[1], argv[2], 50);
+        }
+        else{
+            filterResult(argv[1], argv[2], atoi(argv[3]));
+        }
+    }
+}

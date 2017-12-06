@@ -17,7 +17,7 @@ class Configuration {
     numReducer = 3;
     numInput = numReducer;    
     
-    inputPath = "./Input/srcIPs.txt";
+    inputPath = "./Intermediate/srcIPs.txt";
     outputPath = "./Output/Output";
     partitionPath = "./Partition/Partition";
     numSamples = 10000;

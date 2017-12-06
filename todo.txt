@@ -1,0 +1,1 @@
+1. line-18 of Master-InputPlacement.sh, why rm then mkdir?

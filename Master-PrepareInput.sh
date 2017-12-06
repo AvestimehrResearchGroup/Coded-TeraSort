@@ -2,7 +2,7 @@
 
 g++ -std=c++11 extractIPs.cpp -o extractIPs
 
-./extractIPs $1 
+./extractIPs $1 ~/TeraSort/Intermediate/srcIPs.txt
 
-cp ~/TeraSort/Input/srcIPs.txt ~/TeraSort/Input/srcIPs-C.txt 
+cp ~/TeraSort/Intermediate/srcIPs.txt ~/TeraSort/Intermediate/srcIPs-C.txt 
                                                           
