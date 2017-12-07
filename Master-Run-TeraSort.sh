@@ -45,4 +45,4 @@ rm tempOutput.txt
 mv countIPs.txt ~/TeraSort/Intermediate 
 
 g++ -std=c++11 filterResult.cpp -o filterResult
-./sortResult ~/TeraSort/Intermediate/countIPs.txt ~/TeraSort/Output/result.txt 50
+./filterResult ~/TeraSort/Intermediate/countIPs.txt ~/TeraSort/Output/result.txt 50

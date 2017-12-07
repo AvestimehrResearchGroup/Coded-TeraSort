@@ -38,7 +38,7 @@ do
     cat countIPs-C_$i.txt >> tempOutput-C.txt
 done
 
-mv tempOutput-C.txt ~/TeraSort/Intermediate
+mv tempOutput-C.txt ~/TeraSort/Intermediate/countIPs-C.txt
 
 g++ -std=c++11 filterResult.cpp -o filterResult
 ./filterResult ~/TeraSort/Intermediate/countIPs-C.txt ~/TeraSort/Output/result-C.txt 50

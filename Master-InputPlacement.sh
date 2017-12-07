@@ -15,7 +15,8 @@ do
     echo $i
     host="$host,n$i"
     sudo -u apac ssh -t n$i sudo tc qdisc del dev eth1 root
-    ssh n$i 'rm -rf ~/TeraSort/Input; mkdir -p ~/TeraSort/Input'
+    #ssh n$i 'rm -rf ~/TeraSort/Input; mkdir -p ~/TeraSort/Input'
+    ssh n$i 'rm -rf ~/TeraSort/Intermediate; mkdir -p ~/TeraSort/Intermediate'
     #ssh n$i 'rm ~/TeraSort/Input/*-*'
     scp ./InputPlacement n$i:TeraSort/
 done
