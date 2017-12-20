@@ -23,7 +23,7 @@ class Configuration {
     numSamples = 10000;
   }
   ~Configuration() {}
-  const static unsigned int KEY_SIZE = 13;
+  const static unsigned int KEY_SIZE = 16;
   const static unsigned int VALUE_SIZE = 10;  
   
   unsigned int getNumReducer() const { return numReducer; }

@@ -5,7 +5,7 @@
 #include <string> // string
 #include <vector>  // vector<>
 using namespace std;
-
+#define MAX_IP_LEN 16
 /*
 This function converts network monitoring results into IP-value pairs.
 The monitoring results is carries by a .txt file.
@@ -102,15 +102,9 @@ void extractIPs(string inFileName, string outFileName){
     vector<vector<string>> samples = handleData(inFileName);
     ofstream myFile (outFileName);
     int numSamples = samples.size();
-    int maxSize = 0;
-    for (int i = 0; i < numSamples; i++){  // Find the largest IP length
-        if (samples[i][IPLOC].size() > maxSize){
-            maxSize = samples[i][IPLOC].size();
-        }
-    }
     for (int i = 0; i < samples.size(); i ++){
         myFile << samples[i][1];  // the srcIP
-        int diff = maxSize - samples[i % samples.size()][IPLOC].size();
+        int diff = MAX_IP_LEN - samples[i % samples.size()][IPLOC].size();
         if (diff > 0){  // IP is short, padd some "."s.
             for (int j = 0; j < diff; j++){
                 myFile << ".";

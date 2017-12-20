@@ -28,13 +28,13 @@ done < "$2"
 
 
 echo "// Generate RSA key for seamless ssh"
-sudo -u apac bash -c "ssh-keygen -t rsa -f ~/.ssh/id_rsa"
+bash -c "ssh-keygen -t rsa -f ~/.ssh/id_rsa -N ''"
 
 echo "// Setup all Workers"
 for (( i = 1; i <= $1; i++ ))
 do
-    sudo -u apac bash -c "cat ~/.ssh/id_rsa.pub | ssh n$i 'cat - >> ~/.ssh/authorized_keys'"
-    sudo -u apac ssh n$i 'mkdir -p TeraSort/Output'
-    sudo -u apac ssh n$i 'sudo chown apac:apac ~/TeraSort'
-    sudo -u apac ssh -t n$i 'sudo apt-get -q update; sudo apt-get -q install openmpi-bin libopenmpi-dev -y'
+    bash -c "cat ~/.ssh/id_rsa.pub | sshpass -p 'zhifeng' ssh n$i -o StrictHostKeyChecking=no 'cat - >> ~/.ssh/authorized_keys'"
+    ssh n$i 'mkdir -p TeraSort/Output'
+    #ssh n$i 'sudo chown apac:apac ~/TeraSort'
+    # ssh -t n$i 'sudo apt-get -q update; sudo apt-get -q install openmpi-bin libopenmpi-dev -y'
 done

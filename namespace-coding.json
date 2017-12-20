@@ -1,0 +1,10 @@
+{
+  "kind": "Namespace",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "fisher-coding",
+    "labels": {
+      "name": "fisher-coding"
+    }
+  }
+}

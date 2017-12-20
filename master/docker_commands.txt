@@ -1,0 +1,37 @@
+docker system prune -a # remove all images
+docker build -t <name> .  # build image with a name
+docker run <name>
+docker container ls  # list the running containers
+docker container stop <ID>  # stop the container with the given ID
+
+# remove untaged images
+docker rmi $(docker images -a | grep "^<none>" | awk '{print $3}')
+
+
+# to copy the whole folder with subfolders
+COPY files/ /files/
+RUN ls -la /files/*
+
+docker swarm init --advertise-addr 192.168.0.20  # IP from ifconfig
+
+
+# container
+docker ps # list all containers
+docker stop $(docker ps -a -q)
+docker rm -f $(docker ps -a -q)
+
+docker attach abcd1234
+ctrl +p then ctrl + q to detach
+
+# images
+docker images
+docker rmi $(docker images -q)
+
+# Solve the "Missing privilege separation directory: /run/sshd"
+cd /var/run/sshd#
+ln -s /etc/localtime localtime
+
+
+# connect two containers
+docker run -d --name myWorker workerImage 
+docker run -d --name myMaster --link myWorker:myWorker masterImage  # the /etc/hosts file will have myWorker's IP and name

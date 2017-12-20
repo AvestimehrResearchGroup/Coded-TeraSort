@@ -1,0 +1,4 @@
+nerv1 ubuntu-2gb-nyc2-02 root zhifeng
+nerv2 ubuntu-2gb-nyc2-03 root zhifeng
+nerv3 ubuntu-2gb-sfo1-01 root zhifeng
+nerv4 ubuntu-2gb-sfo1-02 root zhifeng
