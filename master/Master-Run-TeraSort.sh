@@ -15,13 +15,13 @@ host="localhost"
 for (( i = 1; i <= $1; i++ ))
 do
     host="$host,n$i"
-    ssh -t n$i sudo tc qdisc del dev eth0 root
-    if [ $2 -gt 0 ]
-    then
-	ssh -t n$i sudo tc qdisc add dev eth0 handle 1: root htb default 11
-	ssh -t n$i sudo tc class add dev eth0 parent 1: classid 1:1 htb rate "$2"mbit
-	ssh -t n$i sudo tc class add dev eth0 parent 1:1 classid 1:11 htb rate "$2"mbit
-    fi
+    # ssh -t n$i sudo tc qdisc del dev eth0 root
+    # if [ $2 -gt 0 ]
+    # then
+	# ssh -t n$i sudo tc qdisc add dev eth0 handle 1: root htb default 11
+	# ssh -t n$i sudo tc class add dev eth0 parent 1: classid 1:1 htb rate "$2"mbit
+	# ssh -t n$i sudo tc class add dev eth0 parent 1:1 classid 1:11 htb rate "$2"mbit
+    # fi
     scp ./TeraSort n$i:/root/TeraSort/
 done
 

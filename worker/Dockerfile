@@ -10,10 +10,8 @@ RUN sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
 
 RUN apt-get install g++ make openmpi-bin libopenmpi-dev -y
 RUN apt-get install sudo -y
-COPY standby.sh standby.sh
-#WORKDIR /root
+RUN apt-get install iproute2 -y
+COPY rate-limit-then-standby.sh /root/rate-limit-then-standby.sh
+# RUN chmod +x /root/rate-limit-then-standby.sh
 EXPOSE 22
-#RUN mkdir -p .ssh
-# EXPOSE MPI port
-#CMD ["python3 ~/standby.py"]
-CMD ["bash", "./standby.sh"]
+CMD ["bash", "/root/rate-limit-then-standby.sh"]

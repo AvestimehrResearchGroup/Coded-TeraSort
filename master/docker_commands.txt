@@ -35,3 +35,40 @@ ln -s /etc/localtime localtime
 # connect two containers
 docker run -d --name myWorker workerImage 
 docker run -d --name myMaster --link myWorker:myWorker masterImage  # the /etc/hosts file will have myWorker's IP and name
+
+
+# allow password ssh
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
+
+# MPI run as root
+mpirun --allow-run-as-root ,,,
+
+# Kubernetes basis
+python3 k8s_coding.py 
+kubectl get po --namespace=fisher-coding
+kubectl exec -it --namespace=fisher-coding nerv1-3971309090-65r6m -- bash
+kubectl delete svc --namespace=fisher-coding --all
+kubectl delete deployment --namespace=fisher-coding --all
+
+# add network admin privilege to containers in Kubernetes
+apiVersion: v1
+kind: Pod
+metadata:
+ name: mypod
+spec:
+ containers:
+   - name: myshell
+     image: "ubuntu:14.04"
+     command:
+       - /bin/sleep
+       - "300"
+     securityContext:  # look here
+       capabilities:
+         add:
+           - NET_ADMIN
+
+
+apt-get install kmod
+modprobe sch_htb

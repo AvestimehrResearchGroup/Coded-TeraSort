@@ -35,6 +35,10 @@ spec:
           value: {slave_num}
         - name: TOTAL_SLAVES
           value: {total_slaves}
+        securityContext:
+          capabilities:
+            add:
+             - NET_ADMIN
 """
 
 
