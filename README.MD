@@ -3,7 +3,7 @@ Overview
 
 This repo is a complete Docker + Kubernetes implementation of coded Tera-Sort based
 anomaly detection system. When executed, it extracts the source IPs from the
-detection trace, and returns the source IPs that send too many times, which are
+detection trace, and returns the source IPs that are too active, which are
 likely to be anomaly.
 
 Build the Docker Images
@@ -138,4 +138,5 @@ Hadoop: v2.8.1
 Contact
 =======
 mingchao.yu@usc.edu
+
 All Rights Reserved
