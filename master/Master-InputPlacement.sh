@@ -12,7 +12,6 @@ for (( i = 1; i <= $1; i++ ))
 do
     echo $i
     host="$host,n$i"
-    # ssh -t n$i sudo tc qdisc del dev eth0 root
     ssh n$i 'rm -rf ~/TeraSort/Intermediate; mkdir -p ~/TeraSort/Intermediate'
     scp ./InputPlacement n$i:TeraSort/
 done

@@ -2,8 +2,8 @@
 
 if [ $# -lt 2 ]
 then
-    echo "Usage: ./Master-Run-TeraSort.sh K Rate(Mbps)"
-    echo "Ex: ./Master-Experiment 16 400"
+    echo "Usage: ./Master-Run-TeraSort.sh K"
+    echo "Ex: ./Master-Run-TeraSort 16"
     exit
 fi
 
@@ -15,13 +15,6 @@ host="localhost"
 for (( i = 1; i <= $1; i++ ))
 do
     host="$host,n$i"
-    # ssh -t n$i sudo tc qdisc del dev eth0 root
-    # if [ $2 -gt 0 ]
-    # then
-	# ssh -t n$i sudo tc qdisc add dev eth0 handle 1: root htb default 11
-	# ssh -t n$i sudo tc class add dev eth0 parent 1: classid 1:1 htb rate "$2"mbit
-	# ssh -t n$i sudo tc class add dev eth0 parent 1:1 classid 1:11 htb rate "$2"mbit
-    # fi
     scp ./TeraSort n$i:/root/TeraSort/
 done
 
@@ -40,9 +33,6 @@ do
     cat countIPs_$i.txt >> tempOutput.txt
 done
 
-cp tempOutput.txt countIPs.txt
-rm tempOutput.txt
-mv countIPs.txt ~/TeraSort/Intermediate 
+mv tempOutput.txt ~/TeraSort/Intermediate/countIPs.txt
 
-# g++ -std=c++11 filterResult.cpp -o filterResult
-./filterResult ~/TeraSort/Intermediate/countIPs.txt ~/TeraSort/Output/result.txt $3
+./filterResult ~/TeraSort/Intermediate/countIPs.txt ~/TeraSort/Output/result.txt $2

@@ -2,11 +2,10 @@ CC = mpic++
 CFLAGS = -std=c++11 -Wall
 DFLAGS = -std=c++11 -Wall -ggdb
 
-all: TeraSort CodedTeraSort Splitter InputPlacement InputPlacementRandom
-
+all: TeraSort CodedTeraSort Splitter InputPlacement
 clean:
 	rm -f *.o
-	rm -f TeraSort CodedTeraSort Splitter Codegen BroadcastTest InputPlacement InputPlacemantRandom
+	rm -f TeraSort CodedTeraSort Splitter Codegen BroadcastTest InputPlacement
 
 cleanclean: clean
 	rm -f ./Input/*_*
@@ -29,11 +28,6 @@ Splitter: InputSplitter.o Configuration.h CodedConfiguration.h
 
 InputPlacement: InputPlacement.cc CodeGeneration.o Configuration.h CodedConfiguration.h
 	$(CC) $(CFLAGS) -o InputPlacement InputPlacement.cc CodeGeneration.o
-
-InputPlacementRandom: InputPlacementRandom.cc CodeGeneration.o Configuration.h CodedConfiguration.h
-	$(CC) $(CFLAGS) -o InputPlacementRandom InputPlacementRandom.cc CodeGeneration.o
-
-
 
 Trie.o: Trie.cc Trie.h
 	$(CC) $(CFLAGS) -c Trie.cc
