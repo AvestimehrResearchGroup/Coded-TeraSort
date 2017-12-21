@@ -11,12 +11,14 @@ def task(onefile, pathin, pathout):
               pathin + onefile + " root@" +
               realMasterIP + ":/root/TeraSort/Input/data.txt")
 
-    # execute uncoded TeraSort
+    # Execute uncoded TeraSort
+    # For coded TeraSort, replace "uncoded" below by "coded"
     print("Run code")
     os.system("sshpass -p 'zhifeng' ssh " + realMasterIP +
               " '/root/TeraSort/Master-Detection.sh uncoded'")
 
-    # download the results
+    # Download the results
+    # For coded TeraSort, replace "result.txt" below by "result-C.txt"
     print("Download the result")
     while True:
         try:
@@ -31,7 +33,8 @@ def task(onefile, pathin, pathout):
             print("waiting for output")
             time.sleep(1)
 
-    # remove the results from real master
+    # Remove the results from real master
+    # For coded TeraSort, replace "result.txt" below by "result-C.txt"
     print("Delete rermote files")
     os.system("sshpass -p 'zhifeng' ssh -o StrictHostKeyChecking=no " +
               realMasterIP +
