@@ -127,10 +127,16 @@ void filterResult(string inFileName, string outFileName, int thres){
             string IP;
             unsigned int loc = 0;
             // read IP
+            char previous = '1';
             while (myLine[loc] != ' ' && loc < myLine.size()){
-                IP += myLine[loc];
+                // remove pending dots
+                if (!(previous == '.' && myLine[loc] == '.')){
+                   IP += myLine[loc];
+                }
+                previous = myLine[loc];
                 loc ++;
             }
+            IP.pop_back();  // remove the last dot
             // read the count
             string freq;
             while (loc < myLine.size()){

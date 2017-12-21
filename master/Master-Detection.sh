@@ -2,6 +2,8 @@
 
 while IFS=':' read -ra ADDR; do for i in "${ADDR[@]}"; do echo $i >> ips.txt; done; done <<< "$NODE_IPS"
 
+cd /root/TeraSort
+
 ./Master-Network.sh 3 ips.txt  # 3 is the number of workers
                                # ips.txt lists the IP of the workers
 

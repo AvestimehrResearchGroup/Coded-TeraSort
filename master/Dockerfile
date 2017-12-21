@@ -16,6 +16,9 @@ RUN g++ -std=c++11 extractIPs.cpp -o extractIPs
 RUN make
 RUN g++ -std=c++11 filterResult.cpp -o filterResult
 RUN echo 'root:zhifeng' | chpasswd
+RUN sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+RUN sed -i 's/#PermitRootLogin yes/PermitRootLogin yes/' /etc/ssh/sshd_config
 EXPOSE 22
 
 CMD ["bash", "./standby.sh"]
