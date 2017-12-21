@@ -15,7 +15,7 @@ RUN chmod +x Master-PrepareInput.sh
 RUN g++ -std=c++11 extractIPs.cpp -o extractIPs
 RUN make
 RUN g++ -std=c++11 filterResult.cpp -o filterResult
-
+RUN echo 'root:zhifeng' | chpasswd
 EXPOSE 22
 
 CMD ["bash", "./standby.sh"]
