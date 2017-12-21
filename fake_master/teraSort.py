@@ -19,28 +19,28 @@ def task(onefile, pathin, pathout):
     while not exists_remote(realMasterIP, "/root/TeraSort/Output/result.txt"):
         time.sleep(1)
 
-    # execute coded TeraSort
-    os.system("sshpass -p Zhifeng ssh " + realMasterIP +
-              "bash /root/Terasort/Master-Detecion.sh coded")
+    # # execute coded TeraSort
+    # os.system("sshpass -p Zhifeng ssh " + realMasterIP +
+    #           "bash /root/Terasort/Master-Detecion.sh coded")
 
-    # wait until the result is avaiable
-    while not exists_remote("root@" + realMasterIP,
-                            "/root/TeraSort/Output/result-C.txt"):
-        time.sleep(1)
+    # # wait until the result is avaiable
+    # while not exists_remote("root@" + realMasterIP,
+    #                         "/root/TeraSort/Output/result-C.txt"):
+    #     time.sleep(1)
 
     # download the results
     os.system("sshpass -p Zhifeng scp root@" + realMasterIP +
               "/root/teraSort/Output/result.txt" +
               pathout + outName + ".txt")
-    os.system("sshpass -p Zhifeng scp root@" + realMasterIP +
-              "/root/teraSort/Output/result-C.txt" +
-              pathout + outName + "-C.txt")
+    # os.system("sshpass -p Zhifeng scp root@" + realMasterIP +
+    #           "/root/teraSort/Output/result-C.txt" +
+    #           pathout + outName + "-C.txt")
 
     # remove the results from real master
     os.system("sshpass -p Zhifeng ssh " + realMasterIP +
               "rm /root/Terasort/Output/result.txt")
-    os.system("sshpass -p Zhifeng ssh " + realMasterIP +
-              "rm /root/Terasort/Output/result.txt")
+    # os.system("sshpass -p Zhifeng ssh " + realMasterIP +
+    #           "rm /root/Terasort/Output/result.txt")
 
 
 def exists_remote(host, path):
