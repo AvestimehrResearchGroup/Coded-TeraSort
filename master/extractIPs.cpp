@@ -5,7 +5,6 @@
 #include <string> // string
 #include <vector>  // vector<>
 using namespace std;
-#define MAX_IP_LEN 16
 /*
 This function converts network monitoring results into IP-value pairs.
 The monitoring results is carries by a .txt file.
@@ -20,9 +19,11 @@ E.g. the input file looks like:
 
 
 This function extracts the srcIP from each line, make it a key.
-The length of the key is the length of the longest IP.
-All other IPs will have dummy "."s padded.
-This function then adds 10 dummy "*" as its value.
+The length of the key is fixed to MAX_IP_LEN
+All other IPs will have dummy "."s padded. These dummy "."s will be removed
+from the final system output later (in filterIP.o).
+
+This function then adds 10 dummy "*" as the value of every key.
 
 The output is a .txt file. Each line is a key-value pair, separated by space.
 The file looks like:
@@ -35,10 +36,12 @@ The file looks like:
 Key assumptions with hardcoded values as macros:
 1. segments of a line are separated by space ' ' 
 2. in the input file, the srcIP is the 2nd segment of each line
-3. the key value is **********
+3. the key length is 16
+4. the key value is **********
 */
 #define SEP ' '
 #define IPLOC 1
+#define MAX_IP_LEN 16
 #define VALUE "**********"
 
 
